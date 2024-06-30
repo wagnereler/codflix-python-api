@@ -1,16 +1,27 @@
-from uuid import uuid4 as uuid
-class Category:
-    def __init__(self,
-                 name,
-                 id = None,
-                 description = "",
-                 is_active = True ) -> None:
-        self.id = id or uuid()
-        self.name = name
-        self.description = description
-        self.is_active = is_active
+from dataclasses import dataclass, field
+from uuid import UUID, uuid4 as uuid
 
+@dataclass
+class Category:
+    name: str
+    description: str = ''
+    is_active: bool = True
+    id: UUID = field(default_factory=uuid)
+
+    def __post_init__(self):
         self.validate()
+
+    # def __init__(self,
+    #              name,
+    #              id = None,
+    #              description = "",
+    #              is_active = True ) -> None:
+    #     self.id = id or uuid()
+    #     self.name = name
+    #     self.description = description
+    #     self.is_active = is_active
+
+    #     self.validate()
 
     def validate(self) -> None:
         if len(self.name) > 255:
