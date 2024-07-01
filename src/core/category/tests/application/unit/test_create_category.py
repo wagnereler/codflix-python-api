@@ -3,7 +3,7 @@ from uuid import UUID
 
 import pytest
 from src.core.category.application.i_category_repository import CategoryRepository
-from src.core.category.application.create_category import CreateCategory, CreateCategoryRequest
+from src.core.category.application.create_category import CreateCategory, CreateCategoryRequest, CreateCategoryResponse
 from src.core.category.application.exceptions import InvalidCategoryData
 
 class TestCreateCategory:
@@ -17,16 +17,17 @@ class TestCreateCategory:
             is_active = True
         )
 
-        category_id = use_case.execute(request)
+        response = use_case.execute(request)
 
-        assert category_id is not None
-        assert isinstance(category_id, UUID)
+        assert response.id is not None
+        assert isinstance(response, CreateCategoryResponse)
+        assert isinstance(response.id, UUID)
         assert mock_repository.save.called is True
 
     def test_create_category_with_invalid_data(self):
             use_case = CreateCategory(repository=MagicMock(CategoryRepository))
             with pytest.raises(InvalidCategoryData, match='name cannot be empty') as exc_info:
-                category_id = use_case.execute(CreateCategoryRequest(name = ''))
+                use_case.execute(CreateCategoryRequest(name = ''))
             assert exc_info.type == InvalidCategoryData
             assert str(exc_info.value) == 'name cannot be empty'
        
