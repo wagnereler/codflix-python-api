@@ -14,3 +14,14 @@ class TestInMemoryCatetoryRepository:
 
         assert len(repository.categories) == 1
         assert repository.categories[0] == category
+
+    def test_can_get_by_id(self):
+        repository = InMemoreyCategoryRepository()
+        category = Category(
+            name = 'Filme',
+            description = 'Categoria para filmes'
+        )
+
+        repository.save(category)
+
+        assert repository.get_by_id(category.id) == category
