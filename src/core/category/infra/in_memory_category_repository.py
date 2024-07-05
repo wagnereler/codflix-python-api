@@ -3,11 +3,23 @@ from src.core.category.application.i_category_repository import CategoryReposito
 from src.core.category.domain.category import Category
 
 
-class InMemoreyCategoryRepository(CategoryRepository):
-    def __init__(self, categories = None) -> None:
-        self.categories = categories or []
+class InMemoryCategoryRepository(CategoryRepository):
+    def __init__(self):
+        self.categories = {}
 
-    def save(self, category):
-        self.categories.append(category)
-    def get_by_id(self, category_id: UUID) -> Category | None:
-        return next((category for category in self.categories if category.id == category_id), None)
+    def save(self, category: Category) -> None:
+        self.categories[category.id] = category
+
+    def get_by_id(self, id: UUID) -> Category | None:
+        return self.categories.get(id)
+
+    def delete(self, id: UUID) -> None:
+        del self.categories[id]
+
+    def update(self, category: Category) -> None:
+        if self.categories[category.id].name:
+            self.categories[category.id].name = category.name
+        if self.categories[category.id].description:
+            self.categories[category.id].description = category.description
+        if self.categories[category.id].is_active:    
+            self.categories[category.id].is_active = category.is_active
