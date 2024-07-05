@@ -4,22 +4,29 @@ from src.core.category.domain.category import Category
 
 
 class InMemoryCategoryRepository(CategoryRepository):
-    def __init__(self):
-        self.categories = {}
+    def __init__(self, categories: list[Category]=None):
+        self.categories: list[Category] = categories or []
 
     def save(self, category: Category) -> None:
-        self.categories[category.id] = category
+        self.categories.append(category)
 
     def get_by_id(self, id: UUID) -> Category | None:
-        return self.categories.get(id)
+        return next(
+            (category for category in self.categories if category.id == id), None
+        )
 
     def delete(self, id: UUID) -> None:
-        del self.categories[id]
+        self.categories = [category for category in self.categories if category.id != id]
+
+    def list_categories(self) -> list[Category]:
+        return [category for category in self.categories]
 
     def update(self, category: Category) -> None:
-        if self.categories[category.id].name:
-            self.categories[category.id].name = category.name
-        if self.categories[category.id].description:
-            self.categories[category.id].description = category.description
-        if self.categories[category.id].is_active:    
-            self.categories[category.id].is_active = category.is_active
+        old_category = self.get_by_id(category.id)
+        if old_category:
+            self.categories.remove(old_category)
+            self.categories.append(category)
+
+    def list_categories(self) -> list[Category]:
+        # O retorno é uma lista de categorias utilizando list comprehension
+        return [cateogry for cateogry in self.categories]

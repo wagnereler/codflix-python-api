@@ -4,7 +4,7 @@ from pytest import raises
 from src.core.category.application.exceptions import CategoryNotFound
 from src.core.category.application.get_category import GetCategory, GetCategoryRequest, GetCategoryResponse
 from src.core.category.domain.category import Category
-from src.core.category.infra.in_memory_category_repository import InMemoreyCategoryRepository
+from src.core.category.infra.in_memory_category_repository import InMemoryCategoryRepository
 
 
 
@@ -19,7 +19,7 @@ class TestGetCategory:
             description = 'Categoria para séries'
         )
 
-        repository = InMemoreyCategoryRepository(
+        repository = InMemoryCategoryRepository(
             categories = [category_filme, category_serie]
         )
         use_case = GetCategory(repository = repository)
@@ -47,7 +47,7 @@ class TestGetCategory:
             description = 'Categoria para séries'
         )
 
-        repository = InMemoreyCategoryRepository(
+        repository = InMemoryCategoryRepository(
             categories = [category_filme, category_serie]
         )
         use_case = GetCategory(repository = repository)

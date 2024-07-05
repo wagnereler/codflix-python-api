@@ -1,10 +1,10 @@
 from src.core.category.domain.category import Category
-from src.core.category.infra.in_memory_category_repository import InMemoreyCategoryRepository
+from src.core.category.infra.in_memory_category_repository import InMemoryCategoryRepository
 
 
 class TestInMemoryCatetoryRepository:
     def test_can_save_category(self):
-        repository = InMemoreyCategoryRepository()
+        repository = InMemoryCategoryRepository()
         category = Category(
             name = 'Filme',
             description = 'Categoria para filmes'
@@ -16,7 +16,7 @@ class TestInMemoryCatetoryRepository:
         assert repository.categories[0] == category
 
     def test_can_get_by_id(self):
-        repository = InMemoreyCategoryRepository()
+        repository = InMemoryCategoryRepository()
         category = Category(
             name = 'Filme',
             description = 'Categoria para filmes'

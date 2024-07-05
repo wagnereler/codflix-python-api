@@ -1,12 +1,14 @@
 from uuid import UUID
+
 from src.core.category.application.create_category import CreateCategory, CreateCategoryRequest
-from src.core.category.infra.in_memory_category_repository import InMemoreyCategoryRepository
+from src.core.category.infra.in_memory_category_repository import InMemoryCategoryRepository
+
 
 
 
 class TestCreateCategory:
     def test_create_category_with_valid_data(self):
-        repository = InMemoreyCategoryRepository()  # SQLAlchmmy / DjangoORMRepository
+        repository = InMemoryCategoryRepository()  # SQLAlchmmy / DjangoORMRepository
         use_case = CreateCategory(repository=repository)
         request = CreateCategoryRequest(
             name="Filme",
@@ -27,7 +29,7 @@ class TestCreateCategory:
         assert persisted_category.is_active == True
 
     def test_create_inactive_category_with_valid_data(self):
-        repository = InMemoreyCategoryRepository()
+        repository = InMemoryCategoryRepository()
         use_case = CreateCategory(repository=repository)
         request = CreateCategoryRequest(
             name="Filme",
