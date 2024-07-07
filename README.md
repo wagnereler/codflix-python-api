@@ -60,3 +60,29 @@ Será necessário criar um Django APP para cada domínio da aplicação
 * python manage.py runserver #starta o server
 * python manage.py migrate # roda um migrate para sincronizar o ORM com o Bando de Dados
 
+## Instalações de dependências do Django
+* Instalar a biblioteca djangorestframework, após a instalação incluir 'rest_framework' em INTALLED_APPS dentro de settings.py
+  logo depois fazer a configurção 'from rest_framework.routers import DefautRouter' dentro de urls.py. O objetivo aqui é mapear o roteamento de uma rul (endpoint) para um conjunto de views.
+  Desta forma, podemos instanaciar o objeto router e criar o endpont
+
+rauter = DefaultRouter()
+rauter.register('categories', r'categories', basename='category')
+
+log abaixo existe uma lista chamada
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+] + rauter.urls # fazer o append de rauter.urls aqui
+
+
+
+## Testes no Django
+Para integrar os testes do Django com o pytest é necessário instalar a biblioteca pytest-django
+após a instalação o arquivo tests.ini deve ficar assim:
+
+[pytest]
+pythonpath = src
+DJANGO_SETTINGS_MODULE = django_api.settings
+python_files = tests.py test_*.py *_tests.py *_test.py
+
+
